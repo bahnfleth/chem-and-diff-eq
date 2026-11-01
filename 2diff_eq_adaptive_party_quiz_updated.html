@@ -1,0 +1,140 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101728"><title>Diff Eq • Adaptive Tap Quiz</title><style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#101728;color:#f3f6ff}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#202d4a,#101728 60%)}main{max-width:650px;margin:auto;padding:22px 17px 50px}h1{font-size:clamp(25px,6vw,34px);margin:12px 0 5px}.sub{color:#b8c5de;line-height:1.45;margin:0 0 18px}.panel{background:#1b263d;border:1px solid #35435e;border-radius:20px;padding:19px;box-shadow:0 15px 50px #0002}.bar{height:8px;border-radius:20px;background:#34415a;overflow:hidden;margin:12px 0}.bar>div{height:100%;background:#73b6fc;transition:width .25s}.stats{display:flex;justify-content:space-between;gap:7px;font-size:13px;color:#cbd8ed}.tag{display:inline-block;background:#304366;color:#c9e5ff;border-radius:100px;padding:6px 11px;font-size:13px;margin:8px 0}.question{font-size:clamp(21px,5.4vw,28px);font-weight:730;line-height:1.42;margin:14px 0 22px;overflow-wrap:anywhere}.options{display:grid;gap:11px}.answer{width:100%;text-align:left;border:1px solid #475979;background:#293956;color:white;border-radius:14px;min-height:64px;padding:16px;font-size:clamp(16px,4vw,19px);font-weight:550;line-height:1.35;cursor:pointer}.answer:active{transform:scale(.99)}.answer:disabled{opacity:1;cursor:default}.answer.good{background:#165b46;border-color:#4de6aa}.answer.bad{background:#773b46;border-color:#ff929c}.answer.dim{opacity:.58}.feedback{margin:18px 0 0;padding:16px;border-radius:13px;background:#101d33;border:1px solid #40516b;line-height:1.5}.feedback strong{display:block;margin-bottom:6px}.actions{display:flex;gap:10px;margin-top:15px}button.small,button.primary,select{font:inherit;border-radius:12px;padding:12px 13px;border:1px solid #586b8b;background:#273856;color:white}.primary{background:#408ad5!important;border-color:#75b6f5!important;font-weight:700;flex:1;min-height:50px}.settings{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px}.settings label{font-size:14px;color:#cbd6ea}select{max-width:58%;font-size:14px}.muted{font-size:13px;color:#9faec7;line-height:1.55;margin-top:16px}sup{font-size:.65em}details{margin-top:15px;color:#c7d5ec}summary{cursor:pointer}.hidden{display:none}@media(min-width:550px){main{padding-top:35px}}
+
+.tabs{display:flex;gap:9px;margin:12px 0 18px}.tab{flex:1;padding:13px 8px;border:1px solid #586b8b;background:#273856;color:#f3f6ff;border-radius:12px;font:inherit;font-weight:700}.tab.active{background:#408ad5;border-color:#75b6f5}.fcbox{min-height:260px;width:100%;border:1px solid #5c779f;background:linear-gradient(145deg,#263958,#1b2a43);color:#fff;border-radius:19px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;cursor:pointer;font:inherit}.fcbox .fcside{font-size:13px;color:#afd5fa;letter-spacing:.08em;text-transform:uppercase}.fcbox .fccontent{font-size:clamp(20px,5vw,27px);line-height:1.45;font-weight:650}.fcrow{display:flex;gap:9px;margin-top:14px}.fcrow button{flex:1;border:1px solid #566e94;border-radius:12px;background:#263a5b;color:white;font:inherit;padding:12px;min-height:50px}.fcrow button.known{background:#166449}.fcrow button.missed{background:#744052}.fcstats{color:#b6c9e2;font-size:13px;margin:10px 0}.fcsettings{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.fcsettings select{max-width:67%}
+</style></head><body><main><h1>Diff Eq • Tap Quiz</h1><p class="sub">No paper. No keyboard. One question at a time, with extra practice on anything you miss.</p><div class="tabs"><button id="quizTab" class="tab active" type="button">Multiple choice</button><button id="cardsTab" class="tab" type="button">Flashcards</button></div><section id="quizScreen"><div class="settings"><label for="topic">Practice mode</label><select id="topic"><option value="all">Mixed: homework + Laplace</option><option value="series">Power series (6.1–6.2)</option><option value="laplace">All Laplace (7.1–7.3)</option><option value="7.1">7.1 • Definition and convergence</option><option value="7.3">7.3 • Shifting and unit steps</option></select></div><div class="panel"><div class="stats"><span id="count">Question 1</span><span id="accuracy">Accuracy: —</span><span id="streak">Streak: 0</span></div><div class="bar"><div id="progress" style="width:0%"></div></div><div class="tag" id="tag">Power series</div><div class="question" id="question"></div><div class="options" id="options"></div><div id="feedback" class="feedback hidden" aria-live="polite"></div><div class="actions"><button id="next" class="primary hidden">Next question →</button><button id="reset" class="small" title="Reset all saved scores">Reset</button></div></div><div class="muted">Questions are original variations on Zill §§6.1–6.2 and Laplace §§7.1–7.3, including the definition, convergence, s-axis and t-axis shifts, and step-function representations. They are not transcriptions of assigned exercise numbers. Correct answers gradually increase difficulty; mistakes bring back related questions. Progress saves on this device.</div><details><summary>How adaptive practice works</summary><p>Each topic tracks your successes and misses separately. A missed topic gets a higher selection weight and an easier next variation; correct answers increase its level. A correct streak helps you move to harder setups. Question order and answer order change every time.</p></details></section><section id="cardsScreen" class="hidden"><div class="fcsettings"><label for="fcTopic">Flashcard deck</label><select id="fcTopic"><option value="all">All definitions & theorems</option><option value="series">6.1–6.2 Power series</option><option value="7.1">7.1 Laplace definitions</option><option value="7.3">7.3 Shifting theorems</option></select></div><div class="panel"><div class="stats"><span id="fcCount">Card 1</span><span id="fcProgress">Known: 0</span></div><button type="button" id="fcCard" class="fcbox" aria-label="Tap to flip flashcard"><span class="fcside" id="fcSide">Definition · Tap to flip</span><span class="fccontent" id="fcContent"></span></button><div class="fcrow"><button type="button" id="fcPrev">← Previous</button><button type="button" id="fcNext">Next →</button></div><div class="fcrow"><button type="button" id="fcMiss" class="missed">× Review again</button><button type="button" id="fcKnow" class="known">✓ I know this</button></div><div class="fcstats" id="fcMessage">Tap a card to reveal the answer. Mark whether you know it.</div><div class="fcrow"><button id="fcWeak" type="button">Study missed cards</button><button id="fcAll" type="button">Show all cards</button></div></div><p class="muted">Definitions and theorems from the same differential equations topics as the quiz. Flip each card with one tap; progress is saved locally. Cards marked for review appear first on subsequent sessions.</p></section></main><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id), rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, pick=a=>a[rand(0,a.length-1)], shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const keys=['index','derivative','coefficient','recurrence','ordinary','seriesProduct','laplacePower','laplaceExp','laplaceTrig','laplaceLinear','laplaceDerivative','inverse','definition','convergence','sShift','tShift','step','piecewise','unitStepTransform'];
+const names={index:'Index shifting',derivative:'Differentiating a series',coefficient:'Coefficient matching',recurrence:'Recurrence relations',ordinary:'Ordinary points',seriesProduct:'Products of series',laplacePower:'Laplace: powers',laplaceExp:'Laplace: exponentials',laplaceTrig:'Laplace: sine and cosine',laplaceLinear:'Laplace: linearity',laplaceDerivative:'Laplace: derivatives',inverse:'Inverse Laplace',definition:'7.1: Defining integral',convergence:'7.1: Convergence',sShift:'7.3: s-axis shift',tShift:'7.3: t-axis shift',step:'7.3: Unit step',piecewise:'7.3: Piecewise functions',unitStepTransform:'7.3: Step transforms'};
+const isSeries=k=>keys.indexOf(k)<6;const is71=k=>['definition','convergence','laplacePower','laplaceExp','laplaceTrig','laplaceLinear'].includes(k);const is73=k=>['sShift','tShift','step','piecewise','unitStepTransform'].includes(k);
+let data;try{data=JSON.parse(localStorage.getItem('deq_tap_v2'))}catch(e){};data=data||{total:0,correct:0,streak:0,topics:{}};
+keys.forEach(k=>data.topics[k] ||= {right:0,wrong:0,level:0});
+let current=null,answered=false,previous=null;
+const fmt=n=>n<0?'−'+Math.abs(n):''+n;
+const pwr=(v,n)=>n===0?'1':n===1?v:v+'<sup>'+n+'</sup>';
+const eq=(q,a,ds,why,topic)=>({q,answer:a,choices:ds,why,topic});
+function create(k){const level=data.topics[k].level;
+ if(k==='index'){const n=rand(2,8),offset=rand(1,3);const ans='n = '+offset;return eq('For Σ a<sub>n</sub>x<sup>n+'+offset+'</sup> starting at n = 0, what is the smallest power of x?', 'x<sup>'+offset+'</sup>', ['x<sup>0</sup>','x<sup>'+(offset+1)+'</sup>','x<sup>'+n+'</sup>'],'At n = 0 the exponent n + '+offset+' equals '+offset+'.',k)}
+ if(k==='derivative'){const n=rand(2,level>=2?8:5),a=rand(2,7);let correct=a*n+'x'+(n-1===1?'':'<sup>'+(n-1)+'</sup>');return eq('Differentiate the term '+a+'x<sup>'+n+'</sup>.',correct,[a+'x<sup>'+(n-1)+'</sup>',a*n+'x<sup>'+n+'</sup>',a*(n-1)+'x<sup>'+(n-1)+'</sup>'],'Use d/dx [a xⁿ] = a n xⁿ⁻¹. Here '+a+' × '+n+' = '+a*n+'.',k)}
+ if(k==='coefficient'){const a=rand(1,6),b=rand(1,6),sign=pick([1,-1]);const n=rand(2,5);const val=a+sign*b;const term=b===1?'a<sub>'+n+'</sub>':b+'a<sub>'+n+'</sub>';const q='In a power-series substitution, the coefficient of x<sup>'+n+'</sup> is '+a+(sign===1?' + ':' − ')+term+'. What equation comes from setting that coefficient equal to zero?';return eq(q, a+(sign===1?' + ':' − ')+term+' = 0',[a+(sign===1?' − ':' + ')+term+' = 0',a+(sign===1?' + ':' − ')+term+' = 1',a+(sign===1?' + ':' − ')+term+' = x'],'Every coefficient of xⁿ must vanish separately when the full power series equals zero.',k)}
+ if(k==='recurrence'){let n=rand(0,level>=2?5:3),c=rand(1,5);let den=(n+2)*(n+1);const ans='a<sub>'+(n+2)+'</sub> = −'+(c===1?'':' '+c+' / ')+(c===1?'a<sub>'+n+'</sub> / '+den:'a<sub>'+n+'</sub> / '+den); // replace by cleaner math
+ const correct='a<sub>'+(n+2)+'</sub> = −'+(c===1?'':' '+c+'·')+'a<sub>'+n+'</sub> / '+den;
+ return eq('For y″ + '+(c===1?'':c)+'y = 0, what follows from matching the coefficient of x<sup>'+n+'</sup>?',correct,['a<sub>'+(n+2)+'</sub> = '+c+'·a<sub>'+n+'</sub> / '+den,'a<sub>'+(n+1)+'</sub> = −'+c+'·a<sub>'+n+'</sub> / '+den,'a<sub>'+(n+2)+'</sub> = −'+c+'·a<sub>'+n+'</sub> / '+(n+1)],'y″ contributes (n+2)(n+1)aₙ₊₂. Thus '+den+'aₙ₊₂ + '+c+'aₙ = 0. Isolate aₙ₊₂.',k)}
+ if(k==='ordinary'){const a=rand(1,5);let at=rand(-3,3);let form=pick([0,1]);if(form===0)return eq('For ('+a+' + x²)y″ + xy′ + y = 0, is x = 0 an ordinary point?','Yes, because the coefficient of y″ is nonzero at x = 0',['No, because x appears in the equation','No, because y′ is present','Yes, because y″ is absent'],'The leading coefficient is '+a+' + x²; at zero it equals '+a+' ≠ 0.',k);return eq('For x²y″ + '+a+'xy′ + y = 0, classify x = 0.','Singular point',['Ordinary point','Not enough information','A zero of the solution'],'The coefficient of y″ is x², which vanishes at x = 0; division by x² produces singular coefficients.',k)}
+ if(k==='seriesProduct'){const shift=rand(1,3),n=rand(0,5);return eq('If y = Σ a<sub>n</sub>x<sup>n</sup>, what is the coefficient of x<sup>'+ (n+shift) +'</sup> in x<sup>'+shift+'</sup>y?', 'a<sub>'+n+'</sub>', ['a<sub>'+(n+shift)+'</sub>','('+(n+shift)+')a<sub>'+n+'</sub>','a<sub>'+(n+1)+'</sub>'],'Multiply every term by x^'+shift+': x^'+shift+'y = Σ aₙxⁿ⁺'+shift+'. To get x^'+(n+shift)+', choose n = '+n+'.',k)}
+ if(k==='laplacePower'){const n=rand(1,level>=2?6:4),coef=rand(1,4);let fac=1;for(let i=2;i<=n;i++)fac*=i;const top=fac*coef;const correct=top+'/s<sup>'+(n+1)+'</sup>';return eq('Find ℒ{'+(coef===1?'':coef)+ 't<sup>'+n+'</sup>}.',correct,[top+'/s<sup>'+n+'</sup>',coef+'/s<sup>'+(n+1)+'</sup>',top+'/s<sup>'+(n+2)+'</sup>'],'ℒ{tⁿ} = n!/sⁿ⁺¹. Multiply '+n+'! by '+coef+' to get '+top+'.',k)}
+ if(k==='laplaceExp'){const a=rand(1,7),neg=pick([true,false]);const e=(neg?'−':'')+a;const s=neg?'s + '+a:'s − '+a;return eq('Find ℒ{e<sup>'+e+'t</sup>}.','1/('+s+')',['1/('+ (neg?'s − ':'s + ')+a+')',a+'/s','1/(s<sup>2</sup> + '+a*a+')'],'Use ℒ{eᵃᵗ} = 1/(s − a). A negative exponent changes the denominator to s + '+a+'.',k)}
+ if(k==='laplaceTrig'){const a=rand(1,7),sin=pick([true,false]);let correct=sin?a+'/(s<sup>2</sup> + '+a*a+')':'s/(s<sup>2</sup> + '+a*a+')';return eq('Find ℒ{'+(sin?'sin':'cos')+'('+a+'t)}.',correct,[sin?'s/(s<sup>2</sup> + '+a*a+')':a+'/(s<sup>2</sup> + '+a*a+')',(sin?a:'s')+'/(s<sup>2</sup> − '+a*a+')','1/(s + '+a+')'],'ℒ{sin(at)} = a/(s²+a²), while ℒ{cos(at)} = s/(s²+a²).',k)}
+ if(k==='laplaceLinear'){const a=rand(2,6),b=rand(1,7);const correct=a+'/s + '+b+'/s<sup>2</sup>';return eq('Find ℒ{'+a+' + '+b+'t}.',correct,[a+'/s<sup>2</sup> + '+b+'/s',a+' + '+b+'/s',a+'/s + '+b+'/s'],'Apply linearity: ℒ{'+a+'} = '+a+'/s and ℒ{'+b+'t} = '+b+'/s².',k)}
+ if(k==='laplaceDerivative'){const a=rand(1,8),b=rand(1,8),second=pick([true,false]);return second?eq('If y(0) = '+a+' and y′(0) = '+b+', which expression is ℒ{y″}?','s<sup>2</sup>Y(s) − '+a+'s − '+b,['s<sup>2</sup>Y(s) − '+b+'s − '+a,'sY(s) − '+a,'s<sup>2</sup>Y(s) + '+a+'s + '+b],'For a second derivative: ℒ{y″} = s²Y(s) − sy(0) − y′(0).',k):eq('If y(0) = '+a+', what is ℒ{y′}?','sY(s) − '+a,['sY(s) + '+a,'s<sup>2</sup>Y(s) − '+a,'Y(s) − '+a],'For a first derivative, ℒ{y′} = sY(s) − y(0).',k)}
+ if(k==='definition'){
+ const a=rand(1,5),kind=pick([0,1]);
+ if(kind===0)return eq('Using ℒ{f(t)} = ∫₀^∞ e<sup>−st</sup>f(t) dt, which integral defines ℒ{e<sup>'+a+'t</sup>}?',
+ '∫₀^∞ e<sup>−(s−'+a+')t</sup> dt',
+ ['∫₀^∞ e<sup>−(s+'+a+')t</sup> dt','∫₀^∞ e<sup>'+a+'st</sup> dt','∫₀^∞ e<sup>−st</sup> dt'],
+ 'Multiply e⁻ˢᵗ by e^'+a+'ᵗ, then combine exponents: −st + '+a+'t = −(s−'+a+')t.',k);
+ return eq('Evaluate ℒ{'+a+'} directly using the defining integral (s > 0).',a+'/s',[a+'s','1/(s + '+a+')',a+'/s<sup>2</sup>'],'ℒ{'+a+'} = '+a+'∫₀^∞e⁻ˢᵗdt = '+a+'[−e⁻ˢᵗ/s]₀^∞ = '+a+'/s, for s > 0.',k)
+ }
+ if(k==='convergence'){
+ const a=rand(1,7),which=pick([0,1,2]);
+ if(which===0)return eq('For what values of s does ℒ{e<sup>'+a+'t</sup>} converge?','s > '+a,['s < '+a,'s > 0','All real s'],'The defining integral is ∫₀^∞e⁻⁽ˢ⁻'+a+'⁾ᵗdt. Its exponent must decay, so s−'+a+' > 0.',k);
+ if(which===1)return eq('For what values of s does ℒ{e<sup>−'+a+'t</sup>} converge?','s > −'+a,['s > '+a,'s < −'+a,'All real s'],'The integrand becomes e⁻⁽ˢ⁺'+a+'⁾ᵗ, which decays if s+'+a+' > 0.',k);
+ return eq('For what values of real s does ℒ{t<sup>'+a+'</sup>} converge?','s > 0',['s ≥ 0','s < 0','All real s'],'At s = 0 the integral ∫₀^∞t^'+a+' dt diverges; for s > 0 the exponential e⁻ˢᵗ makes it converge.',k)
+ }
+ if(k==='sShift'){
+ const a=rand(1,5),b=rand(1,6),isSin=pick([true,false]),pos=pick([true,false]),shift=pos?'s − '+a:'s + '+a,expo=pos?'':'−';
+ const num=isSin?''+b:'('+shift+')',den='('+shift+')<sup>2</sup> + '+b*b;
+ return eq('Find ℒ{e<sup>'+expo+a+'t</sup> '+(isSin?'sin':'cos')+'('+b+'t)}.',num+'/['+den+']',[(isSin?b:'s')+'/(s<sup>2</sup> + '+b*b+')',(isSin?b:'('+shift+')')+'/['+shift+'<sup>2</sup> − '+b*b+']',(isSin?'('+shift+')':b)+'/['+den+']'],
+ 'First-shifting theorem: ℒ{eᵃᵗ f(t)} = F(s−a). Replace every s in the base '+(isSin?'sine':'cosine')+' transform with ('+shift+').',k)
+ }
+ if(k==='tShift'){
+ const a=rand(1,6),power=pick([0,1,2]);
+ const f=power===0?'1':power===1?'t':'t<sup>2</sup>';
+ const shifted=power===0?'u(t−'+a+')':power===1?'(t−'+a+')u(t−'+a+')':'(t−'+a+')<sup>2</sup>u(t−'+a+')';
+ const result=(power===2?'2':'1')+'·e<sup>−'+a+'s</sup>/s<sup>'+(power+1)+'</sup>';
+ return eq('Which Laplace transform matches '+shifted+'?',result,
+ [(power===2?'2':'1')+'/s<sup>'+(power+1)+'</sup>','e<sup>+'+a+'s</sup>/s<sup>'+(power+1)+'</sup>','e<sup>−'+a+'s</sup>/(s−'+a+')<sup>'+(power+1)+'</sup>'],
+ 'Second-shifting theorem: ℒ{f(t−a)u(t−a)}=e⁻ᵃˢF(s). For '+f+', F(s)='+(power===2?'2':'1')+'/s^'+(power+1)+'.',k)
+ }
+ if(k==='step'){
+ const a=rand(1,7),b=a+rand(1,5),kind=pick([0,1]);
+ if(kind===0)return eq('What is u(t−'+a+') when t = '+(a+1)+'?', '1',['0',String(a+1),'Undefined'],'The unit-step function u(t−a) is 0 before t = a and 1 after t = a.',k);
+ return eq('Which expression equals 1 on '+a+' ≤ t < '+b+' and 0 outside that interval (ignoring endpoint convention)?','u(t−'+a+') − u(t−'+b+')',['u(t−'+a+') + u(t−'+b+')','u(t−'+b+') − u(t−'+a+')','u(t−'+a+')u(t−'+b+')'],
+ 'The first step switches on at '+a+'; the second step subtracts it away at '+b+'.',k)
+ }
+ if(k==='piecewise'){
+ const a=rand(2,7),b=rand(2,6),c=b+rand(1,6),kind=pick([0,1]);
+ if(kind===0)return eq('f(t) = '+b+' for 0 ≤ t < '+a+' and '+c+' for t ≥ '+a+'. Which unit-step expression describes f?',
+ b+' + '+(c-b)+'u(t−'+a+')',[b+' + '+c+'u(t−'+a+')',c+' + '+b+'u(t−'+a+')',b+' − '+(c-b)+'u(t−'+a+')'],
+ 'Start with '+b+'. At t = '+a+' the function must change by '+c+' − '+b+' = '+(c-b)+'. Add this jump times u(t−'+a+').',k);
+ return eq('f(t) = 0 before t = '+a+' and f(t) = t−'+a+' for t ≥ '+a+'. Which expression represents f(t)?',
+ '(t−'+a+')u(t−'+a+')',['tu(t−'+a+')','(t+'+a+')u(t−'+a+')','u(t−'+a+')'],
+ 'The step controls when the function turns on, and the shifted factor t−'+a+' gives the value after the switch.',k)
+ }
+ if(k==='unitStepTransform'){
+ const a=rand(1,6),b=rand(1,5),kind=pick([0,1]);
+ if(kind===0)return eq('Find ℒ{'+b+'u(t−'+a+')}.',b+'e<sup>−'+a+'s</sup>/s',[b+'/s','e<sup>−'+a+'s</sup>/(s−'+b+')',b+'e<sup>+'+a+'s</sup>/s'],'Treat '+b+' as f(t−'+a+') with f(t)='+b+'. Then apply e⁻ᵃˢF(s).',k);
+ return eq('Find ℒ{(t−'+a+')u(t−'+a+')}.','e<sup>−'+a+'s</sup>/s<sup>2</sup>',['1/s<sup>2</sup>','e<sup>−'+a+'s</sup>/s','1/(s−'+a+')<sup>2</sup>'],
+ 'The shifted function is f(t−a) with f(t)=t, so F(s)=1/s² and the delay contributes e⁻ᵃˢ.',k)
+ }
+ if(k==='inverse'){const a=rand(2,7),kind=pick([0,1,2]);if(kind===0)return eq('Find ℒ<sup>−1</sup>{1/(s + '+a+')}.','e<sup>−'+a+'t</sup>',['e<sup>'+a+'t</sup>','sin('+a+'t)','t<sup>'+a+'</sup>'],'Compare 1/(s−k); here k = −'+a+'.',k);if(kind===1)return eq('Find ℒ<sup>−1</sup>{'+a+'/(s<sup>2</sup> + '+a*a+')}.','sin('+a+'t)',['cos('+a+'t)','e<sup>−'+a+'t</sup>','t sin('+a+'t)'],'The numerator a identifies the sine transform.',k);return eq('Find ℒ<sup>−1</sup>{s/(s<sup>2</sup> + '+a*a+')}.','cos('+a+'t)',['sin('+a+'t)','e<sup>'+a+'t</sup>','cos(t)/'+a],'The numerator s identifies the cosine transform.',k)}
+ }
+function save(){try{localStorage.setItem('deq_tap_v2',JSON.stringify(data))}catch(e){}}
+function next(){answered=false;const mode=$('topic').value;const pool=keys.filter(k=>mode==='all'||(mode==='series'?isSeries(k):mode==='7.1'?is71(k):mode==='7.3'?is73(k):!isSeries(k)));let weighted=[];pool.forEach(k=>{let t=data.topics[k],w=Math.min(12,3+t.wrong*2-Math.floor(t.right/3)+(t.level===0?2:0));for(let i=0;i<Math.max(1,w);i++)weighted.push(k)});let k=pick(weighted);if(k===previous&&pool.length>1&&Math.random()<.7)k=pick(pool.filter(x=>x!==k));previous=k;current=create(k);let choices=shuffle([...new Set([current.answer,...current.choices])]);if(choices.length<4){const filler=['None of these','0','1','Not enough information'];for(const f of filler)if(choices.length<4&&!choices.includes(f))choices.push(f)}choices=shuffle(choices);$('tag').textContent=names[k];$('question').innerHTML=current.q;$('options').innerHTML='';choices.forEach(c=>{let btn=document.createElement('button');btn.className='answer';btn.innerHTML=c;btn.onclick=()=>select(btn,c);$('options').appendChild(btn)});$('count').textContent='Question '+(data.total+1);$('accuracy').textContent='Accuracy: '+(data.total?Math.round(100*data.correct/data.total)+'%':'—');$('streak').textContent='Streak: '+data.streak;$('progress').style.width=(Math.min(100,data.streak*10))+'%';$('feedback').classList.add('hidden');$('next').classList.add('hidden')}
+function select(button,choice){if(answered)return;answered=true;const ok=choice===current.answer;data.total++;const t=data.topics[current.topic];if(ok){data.correct++;data.streak++;t.right++;t.level=Math.min(4,t.level+1)}else{data.streak=0;t.wrong++;t.level=Math.max(0,t.level-1)}document.querySelectorAll('.answer').forEach(b=>{b.disabled=true;if(b.innerHTML===current.answer)b.classList.add('good');else if(b===button)b.classList.add('bad');else b.classList.add('dim')});$('feedback').innerHTML='<strong>'+(ok?'Correct.':'Not quite. Correct answer: '+current.answer)+'</strong>'+current.why+'<p style="margin-bottom:0;color:#afbdd7">'+(ok?'This topic moves toward harder variations.':'You will see another question on this skill sooner.')+'</p>';$('feedback').classList.remove('hidden');$('next').classList.remove('hidden');$('accuracy').textContent='Accuracy: '+Math.round(100*data.correct/data.total)+'%';$('streak').textContent='Streak: '+data.streak;save()}
+$('next').addEventListener('click',next);$('topic').addEventListener('change',next);$('reset').addEventListener('click',()=>{if(confirm('Erase quiz progress and start over?')){data={total:0,correct:0,streak:0,topics:{}};keys.forEach(k=>data.topics[k]={right:0,wrong:0,level:0});save();next()}});next();})();
+</script>
+<script>
+(()=>{'use strict';
+const by=id=>document.getElementById(id);
+const cards=[
+['series','Power series','What is a power series centered at x₀?','An infinite sum Σ aₙ(x − x₀)ⁿ.'],
+['series','Definition','What is the center of Σ aₙ(x − 3)ⁿ?','x₀ = 3.'],
+['series','Definition','What is the radius of convergence?','R: the distance from the center within which the series converges.'],
+['series','Theorem','Can a power series be differentiated term by term?','Yes, inside its interval of convergence; the radius stays the same.'],
+['series','Theorem','Can a power series be integrated term by term?','Yes, inside its interval of convergence; the radius stays the same.'],
+['series','Definition','What is an ordinary point of a second-order linear ODE?','A point where the normalized coefficients P(x) and Q(x) are analytic.'],
+['series','Definition','What is a singular point?','A point that is not ordinary: P(x) or Q(x) fails to be analytic there.'],
+['series','Theorem','What happens when two power series agree on an interval?','Their coefficients of equal powers must be equal.'],
+['series','Procedure','For y = Σ aₙxⁿ, what is y′?','Σ (n+1)aₙ₊₁xⁿ, for n ≥ 0.'],
+['series','Procedure','For y = Σ aₙxⁿ, what is y″?','Σ (n+2)(n+1)aₙ₊₂xⁿ, for n ≥ 0.'],
+['series','Definition','What is a recurrence relation?','An equation expressing later series coefficients using earlier ones.'],
+['series','Theorem','How many free coefficients normally start a second-order series solution?','Two, commonly a₀ and a₁.'],
+['7.1','Definition','Define the Laplace transform of f(t).','ℒ{f(t)} = ∫₀^∞ e⁻ˢᵗ f(t) dt, when the integral converges.'],
+['7.1','Definition','What is an improper integral in the Laplace definition?','An integral over an unbounded interval, evaluated by a limit.'],
+['7.1','Definition','What does it mean for ℒ{f} to exist?','The defining improper integral converges for the stated values of s.'],
+['7.1','Theorem','State the linearity property of the Laplace transform.','ℒ{af + bg} = aF(s) + bG(s), when the transforms exist.'],
+['7.1','Transform','What is ℒ{1}?','1/s, for s > 0.'],
+['7.1','Transform','What is ℒ{tⁿ} for nonnegative integer n?','n!/sⁿ⁺¹, for s > 0.'],
+['7.1','Transform','What is ℒ{eᵃᵗ}?','1/(s − a), for s > a.'],
+['7.1','Transform','What is ℒ{sin(bt)}?','b/(s² + b²), for s > 0 when b ≠ 0.'],
+['7.1','Transform','What is ℒ{cos(bt)}?','s/(s² + b²), for s > 0.'],
+['7.1','Definition','What does piecewise continuity mean?','Finite jumps and finitely many smooth or continuous pieces on finite intervals.'],
+['7.1','Definition','What does exponential order mean?','Eventually |f(t)| ≤ M eᶜᵗ for suitable constants M and c.'],
+['7.1','Theorem','Give a sufficient condition for a Laplace transform to exist.','Piecewise continuous on t ≥ 0 and of exponential order; s sufficiently large.'],
+['7.3','Theorem','State the first shifting theorem (s-axis).','If ℒ{f(t)} = F(s), then ℒ{eᵃᵗf(t)} = F(s − a).'],
+['7.3','Procedure','How do you handle an eᵃᵗ factor in a Laplace transform?','Find F(s), then replace each s with s − a.'],
+['7.3','Definition','Define the unit step function u(t − a).','0 for t < a, and 1 for t ≥ a (a ≥ 0).'],
+['7.3','Theorem','State the second shifting theorem (t-axis).','ℒ{u(t − a)f(t − a)} = e⁻ᵃˢF(s), for a ≥ 0.'],
+['7.3','Procedure','Why rewrite g(t)u(t − a) as f(t − a)u(t − a)?','So the second shifting theorem applies with F(s) = ℒ{f(t)}.'],
+['7.3','Transform','What is ℒ{u(t − a)}?','e⁻ᵃˢ/s, for a ≥ 0 and s > 0.'],
+['7.3','Procedure','How do you represent a jump from A to B at t = a?','A + (B − A)u(t − a).'],
+['7.3','Procedure','How do you model a pulse on a ≤ t < b?','u(t − a) − u(t − b).'],
+['7.3','Concept','How do s-axis and t-axis shifts differ?','s-axis: replace s with s−a. t-axis: multiply F(s) by e⁻ᵃˢ.']
+];
+const storageKey='deq_cards_v3';let scores={};try{scores=JSON.parse(localStorage.getItem(storageKey))||{}}catch(e){}
+let selected=[],idx=0,flipped=false,missedOnly=false;
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(scores))}catch(e){}}
+function pool(){let mode=by('fcTopic').value;let items=cards.map((c,i)=>i).filter(i=>mode==='all'||cards[i][0]===mode);if(missedOnly){let weak=items.filter(i=>scores[i]==='miss');if(weak.length)items=weak;else{missedOnly=false;by('fcMessage').textContent='No missed cards in this deck. Showing all cards.';}}return items.sort((a,b)=>(scores[a]==='miss'?0:scores[a]==='know'?2:1)-(scores[b]==='miss'?0:scores[b]==='know'?2:1));}
+function render(){if(!selected.length){by('fcContent').textContent='No cards';return}const i=selected[idx],c=cards[i];by('fcSide').textContent=c[1]+' · '+(flipped?'Answer · Tap to return':'Tap to reveal');by('fcContent').textContent=flipped?c[3]:c[2];by('fcCount').textContent='Card '+(idx+1)+' of '+selected.length;const known=selected.filter(j=>scores[j]==='know').length;by('fcProgress').textContent='Known: '+known+'/'+selected.length;by('fcPrev').disabled=selected.length<2;by('fcNext').disabled=selected.length<2;}
+function load(){selected=pool();idx=0;flipped=false;render()}
+function move(d){idx=(idx+d+selected.length)%selected.length;flipped=false;render()}
+by('quizTab').onclick=()=>{by('quizScreen').classList.remove('hidden');by('cardsScreen').classList.add('hidden');by('quizTab').classList.add('active');by('cardsTab').classList.remove('active')};
+by('cardsTab').onclick=()=>{by('quizScreen').classList.add('hidden');by('cardsScreen').classList.remove('hidden');by('quizTab').classList.remove('active');by('cardsTab').classList.add('active');render()};
+by('fcCard').onclick=()=>{flipped=!flipped;render()};by('fcNext').onclick=()=>move(1);by('fcPrev').onclick=()=>move(-1);
+function mark(v){scores[selected[idx]]=v;save();by('fcMessage').textContent=v==='know'?'Marked as known.':'Marked for extra review.';move(1)}
+by('fcKnow').onclick=()=>mark('know');by('fcMiss').onclick=()=>mark('miss');by('fcTopic').onchange=()=>{missedOnly=false;load()};by('fcWeak').onclick=()=>{missedOnly=true;load()};by('fcAll').onclick=()=>{missedOnly=false;load()};load();
+})();
+</script>
+</body></html>
